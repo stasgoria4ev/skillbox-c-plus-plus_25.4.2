@@ -1,3 +1,3 @@
 #pragma once
 
-void Compute();
+void Compute(int& countInput);

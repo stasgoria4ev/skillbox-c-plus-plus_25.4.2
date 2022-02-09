@@ -1,7 +1,5 @@
 #include "ram.h"
 
-struct sRam;
-
 int array[8] = {0};
 
 void write(int& i, int& number) {
