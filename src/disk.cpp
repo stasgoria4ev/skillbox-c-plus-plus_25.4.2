@@ -1,8 +1,9 @@
 #include <iostream>
 #include <fstream>
 #include "disk.h"
+#include "ram.h"
 
-void Save(int(& array)[8]) {
+void Save(int& countInput) {
     //std::ofstream file("save.bin", std::ios::binary);
     std::ofstream file("data.txt");
     
@@ -11,13 +12,18 @@ void Save(int(& array)[8]) {
         return;
     }
     
-    for (int i = 0; i < sizeof(array) / sizeof(array[0]); ++i) 
-        //file.write((char*)&array[i], sizeof(array[i]));
-        file << array[i] << '\n';
-    file.close();
+    if (countInput == 0) {
+        std::cout << "Start with command \"input\".\n";
+        return;
+    } else {
+        for (int i = 0; i < 8; ++i) 
+            //file.write((char*)&array[i], sizeof(array[i]));
+            file << read(i) << '\n';
+        file.close();
+    }
 }
 
-void Load(int(& array)[8], int& countInput) {
+void Load(int& countInput) {
     //std::ifstream file("save.bin", std::ios::binary);
     std::ifstream file("data.txt");
     
@@ -27,8 +33,12 @@ void Load(int(& array)[8], int& countInput) {
     } else
         countInput++;
     
-    for (int i = 0; i < sizeof(array) / sizeof(array[0]); ++i) 
+    for (int i = 0; i < 8; ++i) {
         //file.read((char*)&array[i], sizeof(array[i]));
-        file >> array[i];//  '\n';
+        //file >> array[i];//  '\n';
+        int temp;
+        file >> temp;
+        write(i, temp);
+    }
     file.close();
 }

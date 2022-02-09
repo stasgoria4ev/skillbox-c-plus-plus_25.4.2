@@ -1,14 +1,27 @@
 #include <iostream>
 #include "commands.h"
-#include "ram.cpp"
-//#include "kbd.h"
-#include "kbd.cpp"
-//#include "gpu.h"
-#include "gpu.cpp"
-//#include "cpu.h"
-#include "cpu.cpp"
-//#include "disk.h"
-#include "disk.cpp"
+#include "ram.h"
+#include "kbd.h"
+#include "gpu.h"
+#include "cpu.h"
+#include "disk.h"
+
+bool CorrectInputNumber(std::string& number) {
+    bool good = true;
+    for (int i = 0; i < number.length() && good; i++)
+        if (number[i] < '0' || number[i] > '9') 
+            good = false;
+    return good;
+}
+
+void CorrectInputCommand(std::string& command) { 
+    do {
+        std::cout << ":";
+        std::cin >> command;
+        if (command != "sum" && command != "save" && command != "load" && command != "input" && command != "display" && command != "exit")
+            std::cout << "Invalid command, please try again.\n";
+    } while (command != "sum" && command != "save" && command != "load" && command != "input" && command != "display" && command != "exit");
+}
 
 int main () {
     std::string command;
@@ -23,8 +36,8 @@ int main () {
             std::cin >> command;
             if (command != "input" && command != "load" && command != "exit") 
                 std::cout << "Command no \"input/load\"..\n";
-            else if (command == "input") Input(array, countInput); 
-            else if (command == "load") Load(array, countInput); 
+            else if (command == "input") Input(countInput); 
+            else if (command == "load") Load(countInput); 
             else if (command == "exit") return 0;
         } while (command != "input" && command != "load" && command != "exit");
     } else if (command == "save") {
@@ -34,12 +47,12 @@ int main () {
             std::cin >> command;
             if (command != "input" && command != "exit")
                 std::cout << "Command no \"input\"..\n";
-            else if (command == "input") Input(array, countInput);
+            else if (command == "input") Input(countInput);
             else if (command == "exit") return 0;
         } while (command != "input" && command != "exit");
-    } else if (command == "input") Input(array, countInput);
-    else if (command == "load") Load(array, countInput);
-    else if (command == "display") Display(array, countInput);
+    } else if (command == "input") Input(countInput);
+    else if (command == "load") Load(countInput);
+    else if (command == "display") Display(countInput);
     else return 0;
 
     while (command != "exit") {
@@ -47,14 +60,14 @@ int main () {
         CorrectInputCommand(command);
             
         if (command == "sum")
-            Compute(array);
+            Compute();
         else if (command == "save")
-            Save(array);
+            Save(countInput);
         else if (command == "load") 
-            Load(array, countInput);
+            Load(countInput);
         else if (command == "display")                                    
-            Display(array, countInput);
+            Display(countInput);
         else if (command == "input") 
-            Input(array, countInput);
+            Input(countInput);
     }
 }
